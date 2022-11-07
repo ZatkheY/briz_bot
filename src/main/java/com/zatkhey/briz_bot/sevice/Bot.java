@@ -24,6 +24,7 @@ public class Bot extends TelegramLongPollingBot {
     final private int GPON = 150;
     final private int GPON_CHS = 550;
     final private int GPON_MAF = 300;
+    final private int CONNECT_GPON = 200;
     final BotConfig botConfig;
 
     public Bot(BotConfig botConfig){
@@ -63,7 +64,6 @@ public class Bot extends TelegramLongPollingBot {
                 sendMsg(chatId, setDate());
                 sendMsg(chatId, firstName + " Введи сумму проведеных карточек");
 
-                //             sendMsg(chatId,update.getMessage().getChatId().toString());
             } else if ("/print".equals(messageText) && chatId == setChatId(chatId).getChatId()) {
                 sendMsg(chatId, "За " + setDate().substring(0, 10) +
                         " Проведенно = " + moneyByDate + "грн." +
@@ -113,6 +113,9 @@ public class Bot extends TelegramLongPollingBot {
             } else if ("GPON MAF (300грн)".equals(typeOfConnect)) {
                 setChatId(callBackChatId).setOtkat(setDate(), GPON_MAF);
                 editMsg(callBackChatId, "GPON MAF (300грн)", messageId);
+            } else if ("Переход на GPON (200грн)".equals(typeOfConnect)) {
+                setChatId(callBackChatId).setOtkat(setDate(), CONNECT_GPON);
+                editMsg(callBackChatId, "Переход на GPON (200грн)", messageId);
             } else if ("Оплата Без откатов".equals(typeOfConnect)) {
                 editMsg(callBackChatId, "Оплата внесена", messageId);
             }
@@ -130,6 +133,8 @@ public class Bot extends TelegramLongPollingBot {
                 .text("GPON Ч.С (550грн)").callbackData("GPON Ч.С (550грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("GPON MAF (300грн)").callbackData("GPON MAF (300грн)").build()));
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("Переход на GPON").callbackData("Переход на GPON (200грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("Оплата Без откатов").callbackData("Оплата Без откатов").build()));
         try {
