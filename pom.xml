@@ -48,7 +48,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>com.home.server.TelegramBot</mainClass>
+                            <mainClass>com.zatkhey.briz_bot</mainClass>
                             <name>workerBot</name>
                         </program>
                     </programs>
