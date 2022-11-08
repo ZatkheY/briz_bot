@@ -1,0 +1,1 @@
+worker: java -Dserver.port=$PORT $JAVA_OPTS -jar target/briz_bot-0.0.1-SNAPSHOT.jar
