@@ -9,6 +9,7 @@ public class Evstratov extends Person {
 
     @Override
     public long getChatId() {
-        return 987009298;
+        return 0;
     }
+//    987009298
 }

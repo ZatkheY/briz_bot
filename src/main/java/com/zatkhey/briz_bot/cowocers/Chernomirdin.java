@@ -8,6 +8,7 @@ public class Chernomirdin extends Person {
     }
     @Override
     public long getChatId() {
-        return 2141654973;
+        return 0;
     }
+//    2141654973
 }

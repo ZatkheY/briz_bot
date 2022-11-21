@@ -4,6 +4,7 @@ package com.zatkhey.briz_bot.sevice;
 
 import com.zatkhey.briz_bot.configuration.BotConfig;
 import com.zatkhey.briz_bot.cowocers.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -35,7 +36,7 @@ public class Bot extends TelegramLongPollingBot {
     private Evstratov evstratov = new Evstratov();
     private Sherbakov sherbakov = new Sherbakov();
     private Chernomirdin chernomirdin = new Chernomirdin();
-    private Person[] people = new Person[]{zatkhey, evstratov, chernomirdin, sherbakov};
+    private Person[] people = new Person[]{zatkhey, sherbakov};
 
 
     public String getBotUsername() {
@@ -56,6 +57,7 @@ public class Bot extends TelegramLongPollingBot {
             int otkatByDate = setChatId(chatId).printOtkatByDate(setDate());
             int allMoney = setChatId(chatId).printAllMoney();
             int allOtkat = setChatId(chatId).printAllOtkat();
+            String date = "21:45:00";
             String allMembersMoney = ": Проведенно = " + allMoney + "грн." +
                     " Откатов = " + allOtkat + "грн." +
                     " Сдать = " + (allMoney - allOtkat) + "грн.";
@@ -89,11 +91,13 @@ public class Bot extends TelegramLongPollingBot {
             } else if ("/clear".equals(messageText) && chatId == 402388586) {
                 clearList();
                 sendMsg(chatId, "Списки очищены");
+            } else if ("/send".equals(messageText) && chatId == 402388586) {
+               sendMessageAll(firstName+ " Незабудь вписать проведенные карточки!!!");
             } else if (chatId == setChatId(chatId).getChatId()) {
                 setChatId(chatId).getMap().put(setDate(), Integer.parseInt(messageText)); //сетаем введеную сумму в мапу
                 sendInlineKeyBoardMessage(chatId); // вызываем inlineKeyboard
             } else {
-                sendMsg(chatId, "Твой Чат ИД = " + update.getMessage().getChatId().toString()+ "\n" +
+                sendMsg(chatId, "Твой Чат ИД = " + update.getMessage().getChatId().toString() + "\n" +
                         "Отправь его сюда ==>> https://t.me/fLaIt");
             }
 
@@ -103,24 +107,30 @@ public class Bot extends TelegramLongPollingBot {
             int messageId = update.getCallbackQuery().getMessage().getMessageId();
             if ("40 метров 1грн.".equals(typeOfConnect)) {
                 setChatId(callBackChatId).setOtkat(setDate(), UTP);
-                editMsg(callBackChatId, "40 метров 1грн. откат 100 грн", messageId);
+                editMsg(callBackChatId, "Оплата внесена,откат = 100грн.", messageId);
             } else if ("GPON 1грн.".equals(typeOfConnect)) {
                 setChatId(callBackChatId).setOtkat(setDate(), GPON);
-                editMsg(callBackChatId, "GPON 1грн. откат 150 грн", messageId);
-            } else if ("GPON Ч.С (550грн)".equals(typeOfConnect)) {
+                editMsg(callBackChatId, "Оплата внесена,откат = 150грн.", messageId);
+            } else if ("GPON Ч.С (999грн)".equals(typeOfConnect)) {
                 setChatId(callBackChatId).setOtkat(setDate(), GPON_CHS);
-                editMsg(callBackChatId, "GPON Ч.С (550грн)", messageId);
-            } else if ("GPON MAF (300грн)".equals(typeOfConnect)) {
+                editMsg(callBackChatId, "Оплата внесена,откат = 550грн.", messageId);
+            } else if ("GPON MAF (999грн)".equals(typeOfConnect)) {
                 setChatId(callBackChatId).setOtkat(setDate(), GPON_MAF);
-                editMsg(callBackChatId, "GPON MAF (300грн)", messageId);
+                editMsg(callBackChatId, "Оплата внесена,откат = 300грн.", messageId);
             } else if ("Переход на GPON (200грн)".equals(typeOfConnect)) {
                 setChatId(callBackChatId).setOtkat(setDate(), CONNECT_GPON);
-                editMsg(callBackChatId, "Переход на GPON (200грн)", messageId);
+                editMsg(callBackChatId, "Оплата внесена,откат = 200грн.", messageId);
             } else if ("Оплата Без откатов".equals(typeOfConnect)) {
                 editMsg(callBackChatId, "Оплата внесена", messageId);
+            } else if ("Срочное Подключение".equals(typeOfConnect)) {
+                setChatId(callBackChatId).setOtkat(setDate(), CONNECT_GPON);
+                editMsg(callBackChatId, "Оплата внесена,откат = 200грн."+"\n"+
+                        "Выбери Тип подключения:", messageId);
+                secondInlineKeyBoardMessage(callBackChatId);
             }
         }
     }
+
 
     //Кнопки выбора типа подключения
     private void sendInlineKeyBoardMessage(long chatId) {
@@ -130,9 +140,31 @@ public class Bot extends TelegramLongPollingBot {
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("GPON 1грн.").callbackData("GPON 1грн.").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text("GPON Ч.С (550грн)").callbackData("GPON Ч.С (550грн)").build()));
+                .text("GPON Ч.С (999грн)").callbackData("GPON Ч.С (999грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text("GPON MAF (300грн)").callbackData("GPON MAF (300грн)").build()));
+                .text("GPON MAF (999грн)").callbackData("GPON MAF (999грн)").build()));
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("Переход на GPON").callbackData("Переход на GPON (200грн)").build()));
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("Оплата Без откатов").callbackData("Оплата Без откатов").build()));
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("Срочное Подключение").callbackData("Срочное Подключение").build()));
+        try {
+            execute(SendMessage.builder().text("Тип подключения")
+                    .replyMarkup(InlineKeyboardMarkup.builder().keyboard(rowList).build())
+                    .chatId(chatId).build());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+    private void secondInlineKeyBoardMessage(long chatId) {
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<List<InlineKeyboardButton>>();
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("40 метров 1грн.").callbackData("40 метров 1грн.").build()));
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("GPON 1грн.").callbackData("GPON 1грн.").build()));
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("GPON MAF (999грн)").callbackData("GPON MAF (999грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("Переход на GPON").callbackData("Переход на GPON (200грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
@@ -206,6 +238,12 @@ public class Bot extends TelegramLongPollingBot {
     private void clearList() {
         for (Person value : people) {
             value.clear();
+        }
+    }
+//    @Scheduled(fixedRateString = "${pingtask.period}")
+    public void sendMessageAll(String text){
+        for (Person person : people) {
+            sendMsg(person.getChatId(), text);
         }
     }
 
