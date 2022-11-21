@@ -1,0 +1,1 @@
+web: java -Dserver.port=30049 $JAVA_OPTS -jar target/briz_bot-0.0.1-SNAPSHOT.jar
