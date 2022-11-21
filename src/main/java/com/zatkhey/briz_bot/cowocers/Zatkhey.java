@@ -4,7 +4,7 @@ public class Zatkhey extends Person {
 
     @Override
     public String getName() {
-        return "Затхей";
+        return "Юрий";
     }
 
     @Override

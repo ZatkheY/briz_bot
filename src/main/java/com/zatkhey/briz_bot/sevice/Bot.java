@@ -1,10 +1,8 @@
 package com.zatkhey.briz_bot.sevice;
 
 
-
 import com.zatkhey.briz_bot.configuration.BotConfig;
 import com.zatkhey.briz_bot.cowocers.*;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -19,6 +17,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 @Component
 public class Bot extends TelegramLongPollingBot {
     final private int UTP = 100;
@@ -28,7 +27,7 @@ public class Bot extends TelegramLongPollingBot {
     final private int CONNECT_GPON = 200;
     final BotConfig botConfig;
 
-    public Bot(BotConfig botConfig){
+    public Bot(BotConfig botConfig) {
         this.botConfig = botConfig;
     }
 
@@ -36,7 +35,7 @@ public class Bot extends TelegramLongPollingBot {
     private Evstratov evstratov = new Evstratov();
     private Sherbakov sherbakov = new Sherbakov();
     private Chernomirdin chernomirdin = new Chernomirdin();
-    private Person[] people = new Person[]{zatkhey, sherbakov};
+    private Person[] people = new Person[]{zatkhey, sherbakov,chernomirdin,evstratov};
 
 
     public String getBotUsername() {
@@ -57,7 +56,6 @@ public class Bot extends TelegramLongPollingBot {
             int otkatByDate = setChatId(chatId).printOtkatByDate(setDate());
             int allMoney = setChatId(chatId).printAllMoney();
             int allOtkat = setChatId(chatId).printAllOtkat();
-            String date = "21:45:00";
             String allMembersMoney = ": Проведенно = " + allMoney + "грн." +
                     " Откатов = " + allOtkat + "грн." +
                     " Сдать = " + (allMoney - allOtkat) + "грн.";
@@ -92,7 +90,7 @@ public class Bot extends TelegramLongPollingBot {
                 clearList();
                 sendMsg(chatId, "Списки очищены");
             } else if ("/send".equals(messageText) && chatId == 402388586) {
-               sendMessageAll(firstName+ " Незабудь вписать проведенные карточки!!!");
+                sendMessageAll( );
             } else if (chatId == setChatId(chatId).getChatId()) {
                 setChatId(chatId).getMap().put(setDate(), Integer.parseInt(messageText)); //сетаем введеную сумму в мапу
                 sendInlineKeyBoardMessage(chatId); // вызываем inlineKeyboard
@@ -124,7 +122,7 @@ public class Bot extends TelegramLongPollingBot {
                 editMsg(callBackChatId, "Оплата внесена", messageId);
             } else if ("Срочное Подключение".equals(typeOfConnect)) {
                 setChatId(callBackChatId).setOtkat(setDate(), CONNECT_GPON);
-                editMsg(callBackChatId, "Оплата внесена,откат = 200грн."+"\n"+
+                editMsg(callBackChatId, "Оплата внесена,откат = 200грн." + "\n" +
                         "Выбери Тип подключения:", messageId);
                 secondInlineKeyBoardMessage(callBackChatId);
             }
@@ -157,6 +155,7 @@ public class Bot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
+
     private void secondInlineKeyBoardMessage(long chatId) {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<List<InlineKeyboardButton>>();
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
@@ -240,10 +239,11 @@ public class Bot extends TelegramLongPollingBot {
             value.clear();
         }
     }
-//    @Scheduled(fixedRateString = "${pingtask.period}")
-    public void sendMessageAll(String text){
+
+    //    @Scheduled(fixedRateString = "${pingtask.period}")
+    public void sendMessageAll() {
         for (Person person : people) {
-            sendMsg(person.getChatId(), text);
+            sendMsg(person.getChatId(), person.getName() + " Незабудь вписать проведенные карточки!!!");
         }
     }
 

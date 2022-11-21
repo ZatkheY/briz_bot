@@ -4,11 +4,11 @@ public class Chernomirdin extends Person {
 
     @Override
     public String getName() {
-        return "Черномырдин";
+        return "Николай";
     }
     @Override
     public long getChatId() {
-        return 0;
+        return 2141654973;
     }
 //    2141654973
 }
