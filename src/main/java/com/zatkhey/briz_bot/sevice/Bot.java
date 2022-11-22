@@ -35,7 +35,7 @@ public class Bot extends TelegramLongPollingBot {
     private Evstratov evstratov = new Evstratov();
     private Sherbakov sherbakov = new Sherbakov();
     private Chernomirdin chernomirdin = new Chernomirdin();
-    private Person[] people = new Person[]{zatkhey, sherbakov,chernomirdin,evstratov};
+    private Person[] people = new Person[]{zatkhey, sherbakov, chernomirdin, evstratov};
 
 
     public String getBotUsername() {
@@ -90,14 +90,20 @@ public class Bot extends TelegramLongPollingBot {
                 clearList();
                 sendMsg(chatId, "Списки очищены");
             } else if ("/send".equals(messageText) && chatId == 402388586) {
-                sendMessageAll( );
+                sendMessageAll();
             } else if (chatId == setChatId(chatId).getChatId()) {
-                setChatId(chatId).getMap().put(setDate(), Integer.parseInt(messageText)); //сетаем введеную сумму в мапу
+                try {
+                    setChatId(chatId).getMap().put(setDate(), Integer.parseInt(messageText));//сетаем введеную сумму в мапу
+                } catch (NumberFormatException e) {
+                    sendMsg(chatId, firstName + " Ты не прав , пиши только цифры , буквы я не понимаю!!!");
+                    return;
+                }
                 sendInlineKeyBoardMessage(chatId); // вызываем inlineKeyboard
             } else {
                 sendMsg(chatId, "Твой Чат ИД = " + update.getMessage().getChatId().toString() + "\n" +
                         "Отправь его сюда ==>> https://t.me/fLaIt");
             }
+
 
         } else if (update.hasCallbackQuery()) {
             String typeOfConnect = update.getCallbackQuery().getData();
@@ -157,7 +163,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void secondInlineKeyBoardMessage(long chatId) {
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<List<InlineKeyboardButton>>();
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("40 метров 1грн.").callbackData("40 метров 1грн.").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
