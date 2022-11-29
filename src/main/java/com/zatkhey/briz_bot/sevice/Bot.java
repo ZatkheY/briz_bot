@@ -21,7 +21,7 @@ import java.util.*;
 @Component
 public class Bot extends TelegramLongPollingBot {
     final private int UTP = 100;
-    final private int GPON = 150;
+    final private int GPON = 200;
     final private int GPON_CHS = 550;
     final private int GPON_MAF = 300;
     final private int CONNECT_GPON = 200;
@@ -124,6 +124,9 @@ public class Bot extends TelegramLongPollingBot {
             } else if ("Переход на GPON (200грн)".equals(typeOfConnect)) {
                 setChatId(callBackChatId).setOtkat(setDate(), CONNECT_GPON);
                 editMsg(callBackChatId, "Оплата внесена,откат = 200грн.", messageId);
+            } else if ("Академический повторное - 200 грн".equals(typeOfConnect)) {
+                setChatId(callBackChatId).setOtkat(setDate(), UTP);
+                editMsg(callBackChatId, "Оплата внесена,откат = 100грн.", messageId);
             } else if ("Оплата Без откатов".equals(typeOfConnect)) {
                 editMsg(callBackChatId, "Оплата внесена", messageId);
             } else if ("Срочное Подключение".equals(typeOfConnect)) {
@@ -138,7 +141,7 @@ public class Bot extends TelegramLongPollingBot {
 
     //Кнопки выбора типа подключения
     private void sendInlineKeyBoardMessage(long chatId) {
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<List<InlineKeyboardButton>>();
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("40 метров 1грн.").callbackData("40 метров 1грн.").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
@@ -148,7 +151,9 @@ public class Bot extends TelegramLongPollingBot {
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("GPON MAF (999грн)").callbackData("GPON MAF (999грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text("Переход на GPON").callbackData("Переход на GPON (200грн)").build()));
+                .text("Переход-Подкл на GPON(200грн)").callbackData("Переход на GPON (200грн)").build()));
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("Академический повторное - 200 грн").callbackData("Академический повторное - 200 грн").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("Оплата Без откатов").callbackData("Оплата Без откатов").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
@@ -172,6 +177,8 @@ public class Bot extends TelegramLongPollingBot {
                 .text("GPON MAF (999грн)").callbackData("GPON MAF (999грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("Переход на GPON").callbackData("Переход на GPON (200грн)").build()));
+        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
+                .text("Академический повторное - 200 грн").callbackData("Академический повторное - 200 грн").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("Оплата Без откатов").callbackData("Оплата Без откатов").build()));
         try {
