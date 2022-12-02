@@ -145,13 +145,11 @@ public class Bot extends TelegramLongPollingBot {
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("40 метров 1грн.").callbackData("40 метров 1грн.").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text("GPON 1грн.").callbackData("GPON 1грн.").build()));
+                .text("Переход-Подкл на GPON(200грн)").callbackData("Переход на GPON (200грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("GPON Ч.С (999грн)").callbackData("GPON Ч.С (999грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("GPON MAF (999грн)").callbackData("GPON MAF (999грн)").build()));
-        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text("Переход-Подкл на GPON(200грн)").callbackData("Переход на GPON (200грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("Академический повторное - 200 грн").callbackData("Академический повторное - 200 грн").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
@@ -172,11 +170,9 @@ public class Bot extends TelegramLongPollingBot {
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("40 метров 1грн.").callbackData("40 метров 1грн.").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text("GPON 1грн.").callbackData("GPON 1грн.").build()));
+                .text("Переход-Подкл на GPON(200грн)").callbackData("Переход на GPON (200грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("GPON MAF (999грн)").callbackData("GPON MAF (999грн)").build()));
-        rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
-                .text("Переход на GPON").callbackData("Переход на GPON (200грн)").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text("Академический повторное - 200 грн").callbackData("Академический повторное - 200 грн").build()));
         rowList.add(Collections.singletonList(InlineKeyboardButton.builder()
